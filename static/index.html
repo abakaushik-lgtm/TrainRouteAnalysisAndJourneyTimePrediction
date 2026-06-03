@@ -13,28 +13,25 @@
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <div class="logo-area">
-                <span class="logo-icon">🚆</span>
-                <h2>RailAnalytics</h2>
+                <span class="logo-icon"></span>
+                <h2>Train Dashboard</h2>
                 <p>Route Predictor v1.0</p>
             </div>
             <nav class="nav-links">
                 <button class="nav-btn active" data-tab="overview">
-                    <span class="btn-icon">📊</span> Overview & Data
+                    <span class="btn-icon"></span> Overview & Data
                 </button>
                 <button class="nav-btn" data-tab="visualizations">
-                    <span class="btn-icon">🖼️</span> Visual Insights
+                    <span class="btn-icon"></span> Visual Insights
                 </button>
                 <button class="nav-btn" data-tab="prediction">
-                    <span class="btn-icon">🔮</span> Prediction Playground
+                    <span class="btn-icon"></span> Prediction Playground
                 </button>
                 <button class="nav-btn" data-tab="transcript">
-                    <span class="btn-icon">📝</span> LinkedIn Walkthrough
+                    <span class="btn-icon"></span> LinkedIn Walkthrough
                 </button>
             </nav>
-            <div class="sidebar-footer">
-                <p>Data Science Internship</p>
-                <p class="copyright">&copy; 2026 abakaushik-lgtm</p>
-            </div>
+            <!-- Sidebar Footer Removed -->
         </aside>
 
         <!-- Main Dashboard View -->
@@ -48,21 +45,21 @@
             <section id="overview" class="tab-content active">
                 <div class="grid-3">
                     <div class="stat-card">
-                        <div class="card-icon blue-glow">📁</div>
+                        <div class="card-icon blue-glow"></div>
                         <div class="card-info">
                             <h3>186,074</h3>
                             <p>Raw Records Ingested</p>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="card-icon purple-glow">🚇</div>
+                        <div class="card-icon purple-glow"></div>
                         <div class="card-info">
                             <h3>11,112</h3>
                             <p>Unique Train Routes</p>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="card-icon green-glow">⏱️</div>
+                        <div class="card-icon green-glow"></div>
                         <div class="card-info">
                             <h3>94.6%</h3>
                             <p>Prediction Accuracy (R²)</p>
@@ -72,7 +69,7 @@
 
                 <div class="grid-2 mt-4">
                     <div class="info-card">
-                        <h2>📌 Data Overview & Clean Ingestion</h2>
+                        <h2>Data Overview & Clean Ingestion</h2>
                         <p>The primary source dataset contains detailed stop-by-stop station timetables. To prepare this data for robust machine learning, the system engineered a complete workflow resolving critical anomalies:</p>
                         <ul class="clean-list">
                             <li><strong>Day-Boundary Wrap-Arounds</strong>: Resolved sequence time wrap-arounds by tracking HH:MM:SS decreases. <em>Result: 0 negative duration anomalies.</em></li>
@@ -82,7 +79,7 @@
                     </div>
 
                     <div class="info-card">
-                        <h2>⚡ Audited Structural Inconsistencies</h2>
+                        <h2>Audited Structural Inconsistencies</h2>
                         <div class="table-container">
                             <table class="data-table">
                                 <thead>
@@ -181,7 +178,7 @@
             <section id="prediction" class="tab-content">
                 <div class="grid-2">
                     <div class="info-card">
-                        <h2>🔮 Journey Time Predictor</h2>
+                        <h2>Journey Time Predictor</h2>
                         <p>Input the distance and number of scheduled stops to calculate the predicted journey duration in real-time. This model is backed by our trained Ordinary Least Squares (OLS) Linear Regression model.</p>
                         
                         <form id="prediction-form" class="mt-4">
@@ -198,9 +195,9 @@
                     </div>
 
                     <div class="info-card result-container">
-                        <h2>📊 Prediction Results</h2>
+                        <h2>Prediction Results</h2>
                         <div class="result-display empty-state" id="result-display">
-                            <div class="state-icon">🔮</div>
+                            <div class="state-icon"></div>
                             <p>Enter route variables on the left and submit to display predicted results.</p>
                         </div>
                         <div class="result-display has-data" id="result-data" style="display: none;">
@@ -210,7 +207,7 @@
                                 <p id="predicted-raw-mins">-- minutes total</p>
                             </div>
                             <div class="model-params">
-                                <h3>💡 Equation Breakdown:</h3>
+                                <h3>Equation Breakdown:</h3>
                                 <p><code>Duration = (1.037 * Distance) + (6.093 * Stops) - 30.28</code></p>
                                 <ul class="equation-breakdown">
                                     <li><strong>Distance Contribution</strong>: <span id="dist-contrib">--</span> minutes</li>
@@ -227,39 +224,35 @@
             <section id="transcript" class="tab-content">
                 <div class="info-card">
                     <div class="card-header-action">
-                        <h2>📝 LinkedIn Walkthrough Script</h2>
+                        <h2>LinkedIn Walkthrough Script</h2>
                         <button class="copy-btn" id="copy-transcript-btn">Copy to Clipboard</button>
                     </div>
                     <p class="mt-2">Use this structured summary transcript to guide your LinkedIn video recording or write your post. Simply click copy to capture the text!</p>
                     
                     <textarea class="transcript-box" id="transcript-text" readonly>
-🚀 Sysslan IT Solutions Data Science Project Walkthrough: Train Route Analysis and Journey Time Prediction System!
+Data Science Project Walkthrough: Train Route Analysis and Journey Time Prediction System!
 
 I am excited to showcase the end-to-end Machine Learning pipeline I built during my internship. The goal is to audit train schedule files, cleanse structural anomalies, engineer cumulative timeline features, and predict overall journey durations.
 
 Here is a quick overview of what I did at each level:
 
-📁 Level 1: Data Ingestion & Overview
+Level 1: Data Ingestion & Overview
 Ingested 186,074 rows of train timetable schedules across 11,113 unique route variations. Audited sequence gaps (100 rows with SN gaps) and identified 1 truncated route starting at distance 2277 (Train 12978) which was filtered.
 
-⏱️ Level 2: Data Cleaning & Feature Engineering
+Level 2: Data Cleaning & Feature Engineering
 Resolved day-boundary wrap-around events sequentially. By tracking HH:MM:SS decreases along stations, I computed absolute journey elapsed minutes relative to starting stations, producing 0 negative duration anomalies.
 
-🔍 Level 3: Exploratory Data Analysis (EDA)
+Level 3: Exploratory Data Analysis (EDA)
 Mapped station traffic (Mumbai CSMT handles 1027 unique trains, Kalyan handles 828). Conducted correlation analysis revealing a nearly perfect Pearson correlation of 0.9820 between Cumulative Distance and Journey Duration.
 
-📊 Level 4: Visualization & Pattern Analysis
+Level 4: Visualization & Pattern Analysis
 Generated comparative major route boxplots, log-scaled station traffic density charts, and scatter plots mapping Distance vs. Journey time showing average speeds of ~57.8 km/h.
 
-🔮 Level 5: Prediction Model Development
+Level 5: Prediction Model Development
 Split the route metrics 80/20. Trained an Ordinary Least Squares (OLS) Linear Regression model achieving R² of 94.6%. The coefficients show that every kilometer adds 1.04 minutes (57.8 km/h speed), and every intermediate stop introduces 6.1 minutes of dwell/accel delay!
 
-🚇 Level 6: Integration & Interactive Dashboard
+Level 6: Integration & Interactive Dashboard
 Consolidated all steps into a reusable endpoint pipeline function, plotted actual vs. predicted values showing strong alignment, and built this interactive dashboard running locally on FastAPI!
-
-Special thanks to my mentor and the team at Sysslan IT Solutions! Let me know your thoughts in the comments. 👇
-
-#DataScience #MachineLearning #Python #FastAPI #PredictiveModeling #Internship #LinearRegression
                     </textarea>
                 </div>
             </section>
