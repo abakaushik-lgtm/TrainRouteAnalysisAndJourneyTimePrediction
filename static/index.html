@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train Route Analysis & Journey Time Prediction Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="glow-bg"></div>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <span class="logo-icon">🚆</span>
+                <h2>Sysslan IT</h2>
+                <p>Route Predictor v1.0</p>
+            </div>
+            <nav class="nav-links">
+                <button class="nav-btn active" data-tab="overview">
+                    <span class="btn-icon">📊</span> Overview & Data
+                </button>
+                <button class="nav-btn" data-tab="visualizations">
+                    <span class="btn-icon">🖼️</span> Visual Insights
+                </button>
+                <button class="nav-btn" data-tab="prediction">
+                    <span class="btn-icon">🔮</span> Prediction Playground
+                </button>
+                <button class="nav-btn" data-tab="transcript">
+                    <span class="btn-icon">📝</span> LinkedIn Walkthrough
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <p>Sysslan IT Solutions Internship</p>
+                <p class="copyright">&copy; 2026 abakaushik-lgtm</p>
+            </div>
+        </aside>
+
+        <!-- Main Dashboard View -->
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Train Route Analysis & Journey Time Prediction</h1>
+                <div class="badge">Local host Active</div>
+            </header>
+
+            <!-- TAB 1: OVERVIEW & DATA -->
+            <section id="overview" class="tab-content active">
+                <div class="grid-3">
+                    <div class="stat-card">
+                        <div class="card-icon blue-glow">📁</div>
+                        <div class="card-info">
+                            <h3>186,074</h3>
+                            <p>Raw Records Ingested</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="card-icon purple-glow">🚇</div>
+                        <div class="card-info">
+                            <h3>11,112</h3>
+                            <p>Unique Train Routes</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="card-icon green-glow">⏱️</div>
+                        <div class="card-info">
+                            <h3>94.6%</h3>
+                            <p>Prediction Accuracy (R²)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-2 mt-4">
+                    <div class="info-card">
+                        <h2>📌 Data Overview & Clean Ingestion</h2>
+                        <p>The primary source dataset contains detailed stop-by-stop station timetables. To prepare this data for robust machine learning, the system engineered a complete workflow resolving critical anomalies:</p>
+                        <ul class="clean-list">
+                            <li><strong>Day-Boundary Wrap-Arounds</strong>: Resolved sequence time wrap-arounds by tracking HH:MM:SS decreases. <em>Result: 0 negative duration anomalies.</em></li>
+                            <li><strong>Truncated Routes</strong>: Audited and filtered out train routes that do not start at cumulative distance 0 (e.g. Train 12978).</li>
+                            <li><strong>Circular / Repeat Stations</strong>: Preserved valid loop-back stations (e.g. Train 290 at station <code>DSJ</code>) as sequential stop events.</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h2>⚡ Audited Structural Inconsistencies</h2>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Inconsistency Type</th>
+                                        <th>Occurrences</th>
+                                        <th>System Action Taken</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>SN Sequence Gaps</strong></td>
+                                        <td>100 rows</td>
+                                        <td>Sorted, preserved ordering</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Truncated Start Stop</strong></td>
+                                        <td>1 train route</td>
+                                        <td>Dropped for modeling stability</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Circular / Repeat Station</strong></td>
+                                        <td>30 instances</td>
+                                        <td>Preserved as unique SN stops</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Exact Duplicate Rows</strong></td>
+                                        <td>0 rows</td>
+                                        <td>De-duplicated on load</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: VISUALIZATIONS -->
+            <section id="visualizations" class="tab-content">
+                <div class="plot-controls">
+                    <button class="plot-btn active" data-plot="actual_pred">Actual vs Predicted</button>
+                    <button class="plot-btn" data-plot="dist_dur">Distance vs Duration</button>
+                    <button class="plot-btn" data-plot="boxplot">Major Route Boxplot</button>
+                    <button class="plot-btn" data-plot="station_traffic">Station Traffic Dist</button>
+                    <button class="plot-btn" data-plot="dur_dist">Journey Duration Dist</button>
+                    <button class="plot-btn" data-plot="corr_heat">Correlation Heatmap</button>
+                </div>
+
+                <div class="plot-display">
+                    <div class="plot-wrapper active-plot" id="plot-actual_pred">
+                        <img src="/reports/actual_vs_predicted.png" alt="Actual vs Predicted Durations">
+                        <div class="plot-desc">
+                            <h3>Actual vs. Predicted Journey Durations</h3>
+                            <p>Visualizes test-set accuracy compared against a perfect fit line (y = x). Points cluster tightly around the reference line, demonstrating our model's solid predictive capabilities (R² = 94.6%).</p>
+                        </div>
+                    </div>
+                    <div class="plot-wrapper" id="plot-dist_dur">
+                        <img src="/reports/distance_vs_duration.png" alt="Distance vs Duration Scatter Plot">
+                        <div class="plot-desc">
+                            <h3>Distance vs. Duration Relationship</h3>
+                            <p>Scatter plot illustrating the linear relationship between distance and duration. The regression trendline slope reveals that distance is the dominant driver of journey duration, translating to an average overall speed of ~57.8 km/h.</p>
+                        </div>
+                    </div>
+                    <div class="plot-wrapper" id="plot-boxplot">
+                        <img src="/reports/duration_boxplot.png" alt="Journey Durations Major Routes">
+                        <div class="plot-desc">
+                            <h3>Journey Durations Across Major Routes</h3>
+                            <p>Comparing the duration ranges of high-frequency variable endpoints like Howrah-Barddhaman or Lonavala-Pune. The variance highlights schedule speed differences between fast express trains and local passengers.</p>
+                        </div>
+                    </div>
+                    <div class="plot-wrapper" id="plot-station_traffic">
+                        <img src="/reports/station_traffic_dist.png" alt="Station Traffic Distribution">
+                        <div class="plot-desc">
+                            <h3>Station Traffic Log-Scaled Distribution</h3>
+                            <p>Frequency chart of station traffic demonstrating a classic power-law. Major hubs (Mumbai CST, Kalyan) handle >700 trains, whereas most intermediate stations serve as quiet crossings with very few stops.</p>
+                        </div>
+                    </div>
+                    <div class="plot-wrapper" id="plot-dur_dist">
+                        <img src="/reports/duration_distribution.png" alt="Journey Duration Distribution">
+                        <div class="plot-desc">
+                            <h3>Journey Duration Overall Distribution</h3>
+                            <p>Histogram showing the distribution of absolute travel times. The vast majority of runs represent short-distance local timetables under 200 minutes, skewing the distribution rightward.</p>
+                        </div>
+                    </div>
+                    <div class="plot-wrapper" id="plot-corr_heat">
+                        <img src="/reports/correlation_heatmap.png" alt="Correlation Heatmap">
+                        <div class="plot-desc">
+                            <h3>Correlation Matrix Heatmap</h3>
+                            <p>Heatmap displaying the Pearson correlation coefficients. Cumulative Distance holds a nearly perfect linear relationship with travel duration (r = 0.9820), while Number of Stops has a moderate relationship (r = 0.5440).</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: PREDICTION PLAYGROUND -->
+            <section id="prediction" class="tab-content">
+                <div class="grid-2">
+                    <div class="info-card">
+                        <h2>🔮 Journey Time Predictor</h2>
+                        <p>Input the distance and number of scheduled stops to calculate the predicted journey duration in real-time. This model is backed by our trained Ordinary Least Squares (OLS) Linear Regression model.</p>
+                        
+                        <form id="prediction-form" class="mt-4">
+                            <div class="form-group">
+                                <label for="distance">Total Distance (km)</label>
+                                <input type="number" id="distance" name="distance" min="0" max="5000" placeholder="e.g. 500" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="stops">Number of Station Stops</label>
+                                <input type="number" id="stops" name="stops" min="0" max="150" placeholder="e.g. 15" required>
+                            </div>
+                            <button type="submit" class="submit-btn">Run Machine Inference</button>
+                        </form>
+                    </div>
+
+                    <div class="info-card result-container">
+                        <h2>📊 Prediction Results</h2>
+                        <div class="result-display empty-state" id="result-display">
+                            <div class="state-icon">🔮</div>
+                            <p>Enter route variables on the left and submit to display predicted results.</p>
+                        </div>
+                        <div class="result-display has-data" id="result-data" style="display: none;">
+                            <div class="result-highlight">
+                                <span class="label">Predicted Journey Duration</span>
+                                <h2 id="predicted-time">-- hrs -- mins</h2>
+                                <p id="predicted-raw-mins">-- minutes total</p>
+                            </div>
+                            <div class="model-params">
+                                <h3>💡 Equation Breakdown:</h3>
+                                <p><code>Duration = (1.037 * Distance) + (6.093 * Stops) - 30.28</code></p>
+                                <ul class="equation-breakdown">
+                                    <li><strong>Distance Contribution</strong>: <span id="dist-contrib">--</span> minutes</li>
+                                    <li><strong>Intermediate Stops Penalty</strong>: <span id="stops-contrib">--</span> minutes</li>
+                                    <li><strong>OLS Line Fitting Constant</strong>: -30.28 minutes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: TRANSCRIPT -->
+            <section id="transcript" class="tab-content">
+                <div class="info-card">
+                    <div class="card-header-action">
+                        <h2>📝 LinkedIn Walkthrough Script</h2>
+                        <button class="copy-btn" id="copy-transcript-btn">Copy to Clipboard</button>
+                    </div>
+                    <p class="mt-2">Use this structured summary transcript to guide your LinkedIn video recording or write your post. Simply click copy to capture the text!</p>
+                    
+                    <textarea class="transcript-box" id="transcript-text" readonly>
+🚀 Sysslan IT Solutions Data Science Project Walkthrough: Train Route Analysis and Journey Time Prediction System!
+
+I am excited to showcase the end-to-end Machine Learning pipeline I built during my internship. The goal is to audit train schedule files, cleanse structural anomalies, engineer cumulative timeline features, and predict overall journey durations.
+
+Here is a quick overview of what I did at each level:
+
+📁 Level 1: Data Ingestion & Overview
+Ingested 186,074 rows of train timetable schedules across 11,113 unique route variations. Audited sequence gaps (100 rows with SN gaps) and identified 1 truncated route starting at distance 2277 (Train 12978) which was filtered.
+
+⏱️ Level 2: Data Cleaning & Feature Engineering
+Resolved day-boundary wrap-around events sequentially. By tracking HH:MM:SS decreases along stations, I computed absolute journey elapsed minutes relative to starting stations, producing 0 negative duration anomalies.
+
+🔍 Level 3: Exploratory Data Analysis (EDA)
+Mapped station traffic (Mumbai CSMT handles 1027 unique trains, Kalyan handles 828). Conducted correlation analysis revealing a nearly perfect Pearson correlation of 0.9820 between Cumulative Distance and Journey Duration.
+
+📊 Level 4: Visualization & Pattern Analysis
+Generated comparative major route boxplots, log-scaled station traffic density charts, and scatter plots mapping Distance vs. Journey time showing average speeds of ~57.8 km/h.
+
+🔮 Level 5: Prediction Model Development
+Split the route metrics 80/20. Trained an Ordinary Least Squares (OLS) Linear Regression model achieving R² of 94.6%. The coefficients show that every kilometer adds 1.04 minutes (57.8 km/h speed), and every intermediate stop introduces 6.1 minutes of dwell/accel delay!
+
+🚇 Level 6: Integration & Interactive Dashboard
+Consolidated all steps into a reusable endpoint pipeline function, plotted actual vs. predicted values showing strong alignment, and built this interactive dashboard running locally on FastAPI!
+
+Special thanks to my mentor and the team at Sysslan IT Solutions! Let me know your thoughts in the comments. 👇
+
+#DataScience #MachineLearning #Python #FastAPI #PredictiveModeling #Internship #LinearRegression
+                    </textarea>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
