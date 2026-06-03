@@ -1,8 +1,14 @@
-# Train Route Analysis and Journey Time Prediction System
+# Train Route Analysis and Journey Time Prediction
 
-An end-to-end Python-based Data Science system that performs route pattern analysis and journey time predictions for railway routes. Developed as part of the Sysslan IT Solutions internship program.
+## Objective
+Building an end-to-end data pipeline to analyze train routes and predict journey durations using Linear Regression.
 
----
+## Tech Stack
+* **Language & Framework**: Python, FastAPI
+* **Data Processing**: Pandas, NumPy
+* **Visualization**: Matplotlib, Seaborn
+* **Modeling & Inference**: Scikit-learn, Joblib
+
 
 ## System Architecture
 
